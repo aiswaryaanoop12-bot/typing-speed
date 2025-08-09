@@ -72,12 +72,12 @@
     let timerId;
 
     function countWords(text) {
-      // Trim and split by spaces, filter out empty strings
       return text.trim().split(/\s+/).filter(word => word.length > 0).length;
     }
 
     function startTest() {
       textArea.value = '';
+      textArea.placeholder = 'Start typing here...';
       textArea.disabled = false;
       textArea.focus();
       resultDisplay.textContent = '';
