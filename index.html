@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Typing Speed Tester</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+      height: 100vh;
+      justify-content: center;
+    }
+    h1 {
+      color: #333;
+    }
+    #text-area {
+      width: 80%;
+      max-width: 600px;
+      height: 150px;
+      font-size: 1.2rem;
+      padding: 10px;
+      margin-top: 20px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      resize: none;
+    }
+    #start-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      background-color: #2575fc;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    #start-btn:hover {
+      background-color: #0a52f5;
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 1.5rem;
+      color: #222;
+    }
+    #timer {
+      margin-top: 15px;
+      font-size: 1.3rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Typing Speed Tester</h1>
+  <textarea id="text-area" placeholder="Start typing here..." disabled></textarea>
+  <button id="start-btn">Start Test</button>
+  <div id="timer">Time left: 30s</div>
+  <div id="result"></div>
+
+  <script>
+    const textArea = document.getElementById('text-area');
+    const startBtn = document.getElementById('start-btn');
+    const timerDisplay = document.getElementById('timer');
+    const resultDisplay = document.getElementById('result');
+
+    let timeLeft = 30;
+    let timerId;
+
+    function countWords(text) {
+      // Trim and split by spaces, filter out empty strings
+      return text.trim().split(/\s+/).filter(word => word.length > 0).length;
+    }
+
+    function startTest() {
+      textArea.value = '';
+      textArea.disabled = false;
+      textArea.focus();
+      resultDisplay.textContent = '';
+      timeLeft = 30;
+      timerDisplay.textContent = Time left: ${timeLeft}s;
+      startBtn.disabled = true;
+
+      timerId = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = Time left: ${timeLeft}s;
+        if (timeLeft <= 0) {
+          clearInterval(timerId);
+          endTest();
+        }
+      }, 1000);
+    }
+
+    function endTest() {
+      textArea.disabled = true;
+      startBtn.disabled = false;
+      const wordCount = countWords(textArea.value);
+      resultDisplay.textContent = You typed ${wordCount} word${wordCount !== 1 ? 's' : ''} in 30 seconds.;
+    }
+
+    startBtn.addEventListener('click', startTest);
+  </script>
+</body>
+</html>
